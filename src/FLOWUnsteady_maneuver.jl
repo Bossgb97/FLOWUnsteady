@@ -168,17 +168,17 @@ end
 
 
 ##### FUNCTIONS  ###############################################################
-function calc_dV(self::KinematicManeuver, vehicle::AbstractVehicle, t::Real,
-                                            dt::Real, ttot::Real, Vref::Real)
-    return Vref * (self.Vvehicle((t+dt)/ttot) - self.Vvehicle(t/ttot))
-end
+#function calc_dV(self::KinematicManeuver, vehicle::AbstractVehicle, t::Real,
+#                                            dt::Real, ttot::Real, Vref::Real)
+#    return Vref * (self.Vvehicle((t+dt)/ttot) - self.Vvehicle(t/ttot))
+#end
 
-function calc_dW(self::KinematicManeuver, vehicle::AbstractVehicle, t::Real,
-                                                         dt::Real, ttot::Real)
-    prev_W = (self.anglevehicle(t/ttot) - self.anglevehicle((t-dt)/ttot)) / dt
-    cur_W = (self.anglevehicle((t+dt)/ttot) - self.anglevehicle(t/ttot)) / dt
-    return pi/180 * (cur_W - prev_W)
-end
+#function calc_dW(self::KinematicManeuver, vehicle::AbstractVehicle, t::Real,
+#                                                         dt::Real, ttot::Real)
+#    prev_W = (self.anglevehicle(t/ttot) - self.anglevehicle((t-dt)/ttot)) / dt
+#    cur_W = (self.anglevehicle((t+dt)/ttot) - self.anglevehicle(t/ttot)) / dt
+#    return pi/180 * (cur_W - prev_W)
+#end
 
 
 ##### INTERNAL FUNCTIONS  ######################################################
@@ -213,7 +213,7 @@ end
     # Here calculate change in velocity of the vehicle based on current
     # aerodynamic forces
 
-function calcdv(dt::Real, i::Real, mp::Real, atm::Real, k::Real, b::Real, kd::Real,
+function calc_dv(dt::Real, i::Real, mp::Real, atm::Real, k::Real, b::Real, kd::Real,
     rotors::Int, c::Int, l::Int, xprev::Array, omegaprev::Array, thetaprev::Array,
     xdotprev::Array)
 
@@ -225,11 +225,15 @@ function calcdv(dt::Real, i::Real, mp::Real, atm::Real, k::Real, b::Real, kd::Re
 end
 
 
-function calc_dw(self::KinematicManeuver, vehicle::AbstractVehicle, t::Real,
-                                                         dt::Real, ttot::Real)
-     # Here calculate change in angular velocity of the vehicle based on current
-     # aerodynamics forces
-    error("Implementation pending")
+function calc_dw(dt::Real, i::Real, mp::Real, atm::Real, k::Real, b::Real, kd::Real,
+    rotors::Int, c::Int, l::Int, xprev::Array, omegaprev::Array, thetaprev::Array,
+    xdotprev::Array)
+
+    a ,omegadot, omega, thetadot, theta, xdot, x, tau = SixDOF.equations(dt, i, mp, atm, k, b, kd, rotors, c, l, xprev, omegaprev, thetaprev, xdotprev)
+    n = (t-tinit)/dt
+    n = trunc(n)
+    dw = omega(n)-omega(n-1)
+    return dw
 end
 
 
