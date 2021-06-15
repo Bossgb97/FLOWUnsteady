@@ -209,10 +209,11 @@ end
 
 ##### FUNCTIONS  ###############################################################
 #function calc_dV(self::DynamicManeuver, vehicle::AbstractVehicle, t::Real,
-                                            dt::Real, ttot::Real, Vref::Real)
+                                        #    dt::Real, ttot::Real, Vref::Real)
     # Here calculate change in velocity of the vehicle based on current
     # aerodynamic forces
-    function prova(tinit::Real, tfinal::Real, dt::Real)
+
+function prova(tinit::Real, tfinal::Real, dt::Real)
     t,n = SixDOF.time(tinit, tfinal, dt)
     return t,n
 end
