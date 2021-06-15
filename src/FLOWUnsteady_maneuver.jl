@@ -197,10 +197,10 @@ end
 ################################################################################
 # KINEMATIC MANEUVER TYPE
 ################################################################################
-struct DynamicManeuver{N, M} <: AbstractManeuver{N, M}
-    angle::NTuple{N, Function}
-    RPM::NTuple{M, Function}
-end
+#struct DynamicManeuver{N, M} <: AbstractManeuver{N, M}
+#    angle::NTuple{N, Function}
+#    RPM::NTuple{M, Function}
+#end
 
 # # Implicit N and M constructor
 # DynamicManeuver(a::NTuple{N, Function}, b::NTuple{M, Function}
@@ -213,9 +213,15 @@ end
     # Here calculate change in velocity of the vehicle based on current
     # aerodynamic forces
 
-function prova(tinit::Real, tfinal::Real, dt::Real)
-    t,n = SixDOF.time(tinit, tfinal, dt)
-    return t,n
+function calcdv(dt::Real, i::Real, mp::Real, atm::Real, k::Real, b::Real, kd::Real,
+    rotors::Int, c::Int, l::Int, xprev::Array, omegaprev::Array, thetaprev::Array,
+    xdotprev::Array)
+
+    a ,omegadot, omega, thetadot, theta, xdot, x, tau = SixDOF.equations(dt, i, mp, atm, k, b, kd, rotors, c, l, xprev, omegaprev, thetaprev, xdotprev)
+    n = (t-tinit)/dt
+    n = trunc(n)
+    dv = xdot(n)-xdot(n-1)
+    return dv
 end
 
 
