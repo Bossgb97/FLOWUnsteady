@@ -16,7 +16,7 @@ import DataFrames
 import JLD
 import Dates
 using PyPlot
-using SixDOF
+#using SixDOF
 using LinearAlgebra: cross, I
 
 # ------------ FLOW CODES ------------------------------------------------------
