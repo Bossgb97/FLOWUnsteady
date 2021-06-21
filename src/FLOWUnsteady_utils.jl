@@ -32,7 +32,7 @@ vis_nsteps=300, figname="maneuver", tstages=[])`
 
 Plots the kinematics and controls of a `KinematicManeuver`.
 """
-function plot_maneuver(maneuver::DynamicManeuver;
+function plot_maneuver(maneuver::KinematiccManeuver;
                         ti::Real=0, tf::Real=1, vis_nsteps=300,
                         save_path=nothing,
                         figname="maneuver", tstages=[], size_factor=2/3)
